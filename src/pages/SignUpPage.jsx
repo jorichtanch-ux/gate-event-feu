@@ -15,25 +15,23 @@ const SignUp = () => {
 			email: formData.get("email"),
 			password: formData.get("password"),
 		};
+
 		const { data, error } = await supabase.auth.signUp({
 			email: signupForm.email,
 			password: signupForm.password,
 		});
 
 		if (error) alert(error);
+
 		if (data) console.log(data);
 	};
+
 	return (
 		<MainLayout>
 			<div className="min-h-screen flex flex-col">
 				<div className="flex justify-center items-center flex-1">
 					<Card>
-						<h1
-							className="text-xl"
-							style={{ fontFamily: "'Cedarville Cursive', cursive" }}
-						>
-							Sign Up
-						</h1>
+						<h1 className="text-xl font-bold">Sign Up</h1>
 						<form onSubmit={handleSubmit}>
 							<Input
 								name="firstname"
