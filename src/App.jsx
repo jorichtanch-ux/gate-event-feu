@@ -1,16 +1,15 @@
-import './App.css'
-import {Routes, Route } from 'react-router';
-import HomePage from './pages/HomePage';
-import SignUpPage from './pages/SignUpPage';
+import "./App.css";
+import { Routes, Route } from "react-router";
+import HomePage from "./pages/HomePage";
+import SignUp from "./pages/SignUpPage";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element ={<HomePage />} />
-      <Route path="/signup"element ={<SignUpPage />} />
-    </Routes>
-    
-  )
-} 
+	return (
+		<Routes>
+			<Route path="/" element={<HomePage />} />
+			<Route path="/sign-up" element={<SignUp />} />
+		</Routes>
+	);
+}
 
 export default App;
