@@ -10,7 +10,7 @@ const SignUp = () => {
 		event.preventDefault();
 		const formData = new FormData(event.target);
 		const signupForm = {
-			firstname: formData.get("fistname"),
+			firstname: formData.get("firstname"),
 			lastname: formData.get("lastname"),
 			email: formData.get("email"),
 			password: formData.get("password"),
@@ -61,7 +61,6 @@ const SignUp = () => {
 								<SendIcon className="text-sm" /> Submit
 							</button>
 						</form>
-						<h1 classname="text-sm mt-4 text-center">Already have an account? <a href="/login" className="text-primary font-bold">Log in</a></h1>
 					</Card>
 				</div>
 			</div>

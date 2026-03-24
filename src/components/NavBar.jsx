@@ -2,8 +2,19 @@ import React from "react";
 import { NavLink } from "react-router";
 import SignUpIcon from "./icons/SignUpIcon";
 import HomeIcon from "./icons/HomeIcon";
+import { useContext } from "react";
+import { SessionContext } from "../contexts/SessionContext";
+import { supabase } from "../utils/supabase";
+import LoginIcon from "./icons/LoginIcon";
 
 const NavBar = () => {
+	const session = useContext(SessionContext);
+
+	const handleLogout = async () => {
+		const { error } = await supabase.auth.signOut();
+		if (error) alert("ewan ko sayo");
+	};
+
 	return (
 		<div className="navbar bg-base-100 shadow-sm">
 			<div className="flex w-full max-w-7xl mx-auto">
@@ -21,10 +32,26 @@ const NavBar = () => {
 						<HomeIcon className="text-lg" />
 						Home
 					</NavLink>
-					<NavLink to="/sign-up" className="btn btn-primary mr-4 rounded-full">
-						<SignUpIcon className="text-lg" />
-						Sign Up
-					</NavLink>
+					{!session && (
+						// fragment
+						<>
+							<NavLink
+								to="/sign-up"
+								className="btn btn-primary mr-4 rounded-full"
+							>
+								<SignUpIcon className="text-lg" />
+								Sign Up
+							</NavLink>
+
+							<NavLink
+								to="/log-in"
+								className="btn btn-primary mr-4 rounded-full"
+							>
+								<LoginIcon className="text-xl" />
+								Login
+							</NavLink>
+						</>
+					)}
 					<div className="dropdown dropdown-end">
 						<div
 							tabIndex={0}
@@ -34,7 +61,7 @@ const NavBar = () => {
 							<div className="w-10 rounded-full">
 								<img
 									alt="Tailwind CSS Navbar component"
-									src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhMx_6turwYozHnISY42GLE3-IoCR20PIDNg&s"
+									src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
 								/>
 							</div>
 						</div>
@@ -52,7 +79,7 @@ const NavBar = () => {
 								<a>Settings</a>
 							</li>
 							<li>
-								<a>Logout</a>
+								<button onClick={handleLogout}>Logout</button>
 							</li>
 						</ul>
 					</div>
