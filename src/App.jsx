@@ -7,6 +7,7 @@ import { supabase } from "./utils/supabase";
 import { SessionContext } from "./contexts/SessionContext";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import EditPage from "./pages/EditPage";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -36,6 +37,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/log-in" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/edit-profile" element={<EditPage />} />
+
       </Routes>
     </SessionContext.Provider>
   );
