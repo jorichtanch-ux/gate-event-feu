@@ -5,11 +5,11 @@ import SignUpIcon from "../components/icons/SignUpIcon";
 import SendIcon from "../components/icons/SendIcon";
 import { supabase } from "../utils/supabase";
 import { useContext } from "react";
-import { SessionContext } from "../contexts/SessionContext";
 import { useNavigate } from "react-router";
+import { SessionContext } from "../contexts/SessionContext";
 
 const EditProfile = () => {
-	const {session, profile } = useContext(SessionContext);
+	const { session, profile, setProfile } = useContext(SessionContext);
 	const navigate = useNavigate();
 
 	const handleSubmit = async (event) => {
@@ -19,7 +19,6 @@ const EditProfile = () => {
 			firstname: formData.get("firstname"),
 			lastname: formData.get("lastname"),
 			email: formData.get("email"),
-			password: formData.get("password"),
 		};
 
 		const { data: profileData, error: profileError } = await supabase
@@ -30,15 +29,15 @@ const EditProfile = () => {
 				email: signupForm.email,
 			})
 			.eq("id", session.user.id)
-			.select();
+			.select()
+			.single();
 
 		if (profileError) alert(profileError);
 		if (profileData) {
 			navigate("/profile");
+			setProfile(profileData);
 		}
 	};
-
-	console.log ("profile from edit profile page", profile);
 
 	return (
 		<MainLayout>

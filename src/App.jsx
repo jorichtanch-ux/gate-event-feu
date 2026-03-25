@@ -7,64 +7,65 @@ import { supabase } from "./utils/supabase";
 import { SessionContext } from "./contexts/SessionContext";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import EditPage from "./pages/EditPage";
+import EditProfile from "./pages/EditProfile";
+import ManageEvents from "./pages/ManageEvents";
+import AddEvent from "./pages/AddEvent";
 
 function App() {
-  const [session, setSession] = useState(null);
-  const [profile, setProfile] = useState(null);
+	const [session, setSession] = useState(null);
+	const [profile, setProfile] = useState(null);
 
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("event", event);
-      console.log("session", session);
-      if (event === "SIGNED_OUT") {
-        setSession(null);
-      } else if (session) {
-        setSession(session);
-      }
-    });
+	useEffect(() => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, session) => {
+			console.log("event", event);
+			console.log("session", session);
+			if (event === "SIGNED_OUT") {
+				setSession(null);
+				setProfile(null);
+			} else if (session) {
+				setSession(session);
+			}
+		});
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-  useEffect(() => {
-          const fetchProfile = async () => {
-              const { data, error } = await supabase
-                  .from("profiles")
-                  .select()
-                  .eq("id", session.user.id)
-                  .single();
-  
-              if (error) {
-              }
-  
-              if (data) {
-  
-                  setProfile(data);
-                  console.log("data", data);
-              }
-          };
-  
-          if (session?.user?.id) {
-              fetchProfile();
-          }
-      }, [session]);
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, []);
 
-  return (
-    <SessionContext.Provider value={{session, profile}}>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/log-in" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/edit-profile" element={<EditPage />} />
+	useEffect(() => {
+		const fetchProfile = async () => {
+			const { data, error } = await supabase
+				.from("profiles")
+				.select()
+				.eq("id", session.user.id)
+				.single();
 
-      </Routes>
-    </SessionContext.Provider>
-  );
+			if (error) alert(error);
+			if (data) {
+				setProfile(data);
+			}
+		};
+
+		if (session) {
+			fetchProfile();
+		}
+	}, [session]);
+
+	return (
+		<SessionContext.Provider value={{ session, profile, setProfile }}>
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/sign-up" element={<SignUp />} />
+				<Route path="/log-in" element={<Login />} />
+				<Route path="/profile" element={<Profile />} />
+				<Route path="/edit-profile" element={<EditProfile />} />
+				<Route path="/manage-events" element={<ManageEvents />} />
+				<Route path="/add-event" element={<AddEvent />} />
+			</Routes>
+		</SessionContext.Provider>
+	);
 }
 
 export default App;

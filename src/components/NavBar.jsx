@@ -8,7 +8,7 @@ import { supabase } from "../utils/supabase";
 import LoginIcon from "./icons/LoginIcon";
 
 const NavBar = () => {
-	const {session} = useContext(SessionContext);
+	const { session, profile } = useContext(SessionContext);
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();
@@ -24,12 +24,12 @@ const NavBar = () => {
 						<span className="text-secondary">Gate</span>
 					</a>
 				</div>
-				<div className="flex-none">
+				<div className="flex">
 					<NavLink
 						to="/"
-						className="btn btn-primary mr-4 rounded-full btn-outline"
+						className="mr-4 rounded-full btn-outline inline-flex items-center text-primary"
 					>
-						<HomeIcon className="text-lg" />
+						<HomeIcon className="text-md mr-1" />
 						Home
 					</NavLink>
 					{!session && (
@@ -37,7 +37,7 @@ const NavBar = () => {
 						<>
 							<NavLink
 								to="/sign-up"
-								className="btn btn-primary mr-4 rounded-full"
+								className="btn btn-secondary mr-4 rounded-full"
 							>
 								<SignUpIcon className="text-lg" />
 								Sign Up
@@ -52,6 +52,17 @@ const NavBar = () => {
 							</NavLink>
 						</>
 					)}
+					{profile?.role === "admin" && (
+						<NavLink
+							to="/manage-events"
+							className="mr-4 rounded-full btn-outline inline-flex items-center text-primary"
+						>
+							Manage Events
+						</NavLink>
+					)}
+					{/* nullish value, undefined, "", 0, null */}
+					{/* (session) && - if session is not nullish value then execute whatever code after the && */}
+					{/* (!session) && - if session is nullish then execute whatever code right after the &&*/}
 					{session && (
 						<div className="dropdown dropdown-end">
 							<div
