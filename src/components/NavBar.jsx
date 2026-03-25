@@ -8,7 +8,7 @@ import { supabase } from "../utils/supabase";
 import LoginIcon from "./icons/LoginIcon";
 
 const NavBar = () => {
-	const session = useContext(SessionContext);
+	const {session} = useContext(SessionContext);
 
 	const handleLogout = async () => {
 		const { error } = await supabase.auth.signOut();

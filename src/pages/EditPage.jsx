@@ -9,7 +9,7 @@ import { SessionContext } from "../contexts/SessionContext";
 import { useNavigate } from "react-router";
 
 const EditProfile = () => {
-	const session = useContext(SessionContext);
+	const {session, profile } = useContext(SessionContext);
 	const navigate = useNavigate();
 
 	const handleSubmit = async (event) => {
@@ -38,6 +38,8 @@ const EditProfile = () => {
 		}
 	};
 
+	console.log ("profile from edit profile page", profile);
+
 	return (
 		<MainLayout>
 			<div className="min-h-screen flex flex-col">
@@ -50,18 +52,21 @@ const EditProfile = () => {
 								placeholder="Enter your First Name"
 								label="Firstname"
 								type="text"
+								defaultValue={profile?.firstname}
 							/>
 							<Input
 								name="lastname"
 								placeholder="Enter your Last Name"
 								label="Lastname"
 								type="text"
+								defaultValue={profile?.lastname}
 							/>
 							<Input
 								name="email"
 								placeholder="Enter your Email"
 								label="Email"
 								type="email"
+								defaultValue={profile?.email}
 							/>
 							<button className="btn btn-primary rounded-full mt-5">
 								<SendIcon className="text-sm" /> Submit

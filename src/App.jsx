@@ -11,6 +11,7 @@ import EditPage from "./pages/EditPage";
 
 function App() {
   const [session, setSession] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const {
@@ -29,9 +30,31 @@ function App() {
       subscription.unsubscribe();
     };
   }, []);
+  useEffect(() => {
+          const fetchProfile = async () => {
+              const { data, error } = await supabase
+                  .from("profiles")
+                  .select()
+                  .eq("id", session.user.id)
+                  .single();
+  
+              if (error) {
+              }
+  
+              if (data) {
+  
+                  setProfile(data);
+                  console.log("data", data);
+              }
+          };
+  
+          if (session?.user?.id) {
+              fetchProfile();
+          }
+      }, [session]);
 
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={{session, profile}}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-up" element={<SignUp />} />
